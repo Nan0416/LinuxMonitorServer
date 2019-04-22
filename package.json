@@ -1,0 +1,16 @@
+{
+  "name": "linuxmonitor-server",
+  "version": "1.0.0",
+  "description": "The server program of the linux monitor project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "linux",
+    "monitor",
+    "nodejs"
+  ],
+  "author": "Nan Qin",
+  "license": "ISC"
+}

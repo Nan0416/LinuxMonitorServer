@@ -1,7 +1,7 @@
 const mongoose = require('mongoose'); 
 const Schema = mongoose.Schema;
 const passportLocalMongoose = require('passport-local-mongoose');
-
+const UserStatusType = require('./user_status_types').UserStatusType;
 const User = new Schema({
     email:{
         type: String,
@@ -16,10 +16,11 @@ const User = new Schema({
         type: String,
         required: false,
     },
-    // 0 registered, 1 verified
+    // 0 registered, 1 email verified
     status:{
         type: Number,
-        default:0
+        required: true,
+        default: UserStatusType.AccountRegistered
     },
     keys:[
         {

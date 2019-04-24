@@ -12,7 +12,7 @@ function generateKey(userId, callback){
     // [TODO] check key does not existed ...
 
     let key = {
-        owerid: userId,
+        ownerid: userId,
         value: base64key,
     }
     keyDB.create(key, (err, result)=>{
@@ -33,3 +33,4 @@ function addPrivilege(privilege, keyvalue, callback){
 function verifyPrivilege(privilege, keyvalue, callback){
 
 }
+module.exports.generateKey = generateKey;

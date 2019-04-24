@@ -19,7 +19,7 @@ const session_id = require('./web_server_config').session_id;
 const signupRoute = require('./main-app/routes/user_routes/signup_route');
 const loginRoute = require('./main-app/routes/user_routes/login_route');
 const logoutRoute = require('./main-app/routes/user_routes/logout_route');
-// 
+const activateRoute = require('./main-app/routes/user_routes/activate_route');
 //const keyManagementRoute = require('./main-app/routes/user_routes/key_route');
 // agent
 /* const registerTargetRoute = require('./routes/target_routes/register_route');
@@ -105,6 +105,7 @@ function session_authentication(req, res, next){
 
 app.use(urlprefix + '/user/signup', signupRoute);
 app.use(urlprefix + '/user/login', loginRoute);
+app.use(urlprefix + '/user/activate', activateRoute);
 // app.use(url_prefix + '/target/report', reportTargetRoute);
 app.use(cors.cors, session_authentication);
 app.use(urlprefix + '/user/logout', logoutRoute);

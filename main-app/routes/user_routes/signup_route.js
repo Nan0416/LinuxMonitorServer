@@ -1,5 +1,5 @@
 /**
- * smallData_user /query/....
+ * /query/....
  */
 
 const cors = require('../cors');

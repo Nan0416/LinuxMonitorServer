@@ -1,8 +1,10 @@
 const userDB = require('../db_models/user_db');
-const session_id = require('../../web_server_config').session_id;
-
-
-const selected_field = "username email profile status";
+const generateKey = require('./key_db_ops').generateKey;
+const generateVerificationEmail = require('./email_verification_db').generateVerificationEmail;
+const selected_fields = "username email profile status";
+const mailgun_api_key = require('../../secret').mailgun_api_key;
+const mailgun_domain = require('../../secret').mailgun_domain;
+const mailgun = require('mailgun-js')({apiKey: mailgun_api_key, domain: mailgun_domain})
 
 function validateUsername(username){
     // 6 - 20 char from [0-9, a-z, A-Z]
@@ -53,12 +55,39 @@ function validateEmail(email) {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
 }
+//////////////////////////////////////////////////////////////////////////
+///////////////////////// Send verification email ////////////////////////
+//////////////////////////////////////////////////////////////////////////
+
+function send_verification_email(username, email, value, callback){
+    const data = {
+        from: 'LinuxMonitor <support@monitor.sousys.com>',
+        to: email,
+        subject: 'LinuxMonitor Support',
+        text: 
+`Hi ${username}. Please confirm your email address by clicking on the link below. \n
+If you did not sign up for a LinuxMonitor account please disregard this email.\n
+https://monitor.sousys.com/activate/${value}`
+    };
+      
+    mailgun.messages().send(data, callback);
+}
+
 
 
 ///////////////////////////////////////////////////////////////////////////
 /////////////////////////// sign up operation /////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 
+
+/**
+ * 
+ * @param {*} username 
+ * @param {*} email 
+ * @param {*} password 
+ * @param {*} callback 
+ * 1. create user account, 2. generate verification email, 3. send email 4. generate default key.
+ */
 function signup(username, email, password, callback){
 
     let result = validateUsername(username);
@@ -80,9 +109,46 @@ function signup(username, email, password, callback){
         if (err) {
             callback(err);
         }else{
-            // send email
-            // generate a default key
-            callback(null, user.toObject());
+            let userid = user._id;
+            // generate email verification
+            generateVerificationEmail(userid, email, (err, email_result)=>{
+                if(err){
+                    user.remove(()=>{
+                        callback(err);
+                    });
+                    return;
+                }else if(!result){
+                    user.remove(()=>{
+                        callback(new Error("Cannot generate verification email"));
+                    });
+                    return;
+                }else{
+                    // send email
+                    send_verification_email(username, email, email_result.value, (err, body)=>{
+                        if(err){
+                            console.log(`Mailgun ${err} ${err.message}`);
+                        }else{
+                            console.log(`Mailgun ${body.message}`);
+                        }
+                    });
+                    // generate a default key
+                    generateKey(user._id, (err, key)=>{
+                        if(err){
+                            callback(err);
+                        }else if(key == null){
+                            callback("Failed to generate a private key");
+                        }else{
+                            user.keys.push(key._id);
+                            user.save((err, user)=>{
+                                if(err) callback(err);
+                                else{
+                                    userDB.findById(user._id, selected_fields, callback);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
         }
     });
 }
@@ -99,7 +165,7 @@ function login(username_email, callback){
         condition['username'] = username_email;
     }
     // login with email,  find username via email.
-    userDB.findOne(condition, selected_field, (err, user)=>{
+    userDB.findOne(condition, selected_fields, (err, user)=>{
         if(err){
             callback(err);
             return;

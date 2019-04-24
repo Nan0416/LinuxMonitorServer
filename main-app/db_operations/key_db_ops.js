@@ -57,7 +57,9 @@ function addPrivilege(privilege, keyvalue, callback){
     });
 }
 
-// verify privilege for agent
+/* verify privilege for agent
+* Backend method.
+* */
 function verifyPrivilege(privilege, keyvalue, callback){
     keyDB.findOne({value: keyvalue}, (err, key)=>{
         if(err != null) callback(err);

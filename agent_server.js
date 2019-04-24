@@ -17,7 +17,9 @@ const enabled_plugins = [
     "common-plugin"
 ];
 
-
+const verifyPrivilegeRoute = require("./main-app/agent-routes/key-routes/verify_key_route");
+const addAgentRoute = require('./main-app/agent-routes/agent-routes/add_agent_route');
+// const delAgentRoute = 
 
 ///////// Express middleware //////////
 const logger = require('morgan');
@@ -52,6 +54,17 @@ connect.then((db)=>{
 //////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////// Route setup         ////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * First time running
+ * 1. agent self check if the given key has the its privilege
+ * 2. agent create a instance of its type.
+ * 3. agent start sending data.
+ *  */
+
+
+// privilege verification
+app.use(urlprefix + '/privilege/verify', verifyPrivilegeRoute);
+app.use(urlprefix + '/agent/add', addAgentRoute);
 
 // add plugins
 for(let i = 0 ; i < enabled_plugins.length; i++){

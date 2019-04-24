@@ -10,7 +10,7 @@ const add_common_metrics = require('../common_db_operation').add_common_metrics;
 
 
 router.route('/:account')
-.post(verification.verify("common-plugin"), (req, res, next) => {
+.post(verification.verify("common"), (req, res, next) => {
     if(req.body && has_value(req.body["agent-id"]) && has_value(req.body["data"])){
         add_common_metrics(req.body["agent-id"], req.body["data"], (err, result)=>{
             if(err){

@@ -21,7 +21,7 @@ const Agent = new Schema({
     },
     status:{
         type: Number,
-        default: 0 // 0 is register but not working
+        default: 1 // 1 normal 
     }
 },{
     //updatedAt and createdAt: (ISODate object)
@@ -30,6 +30,7 @@ const Agent = new Schema({
     usePushEach:true
 });
 Agent.index({ownerid: 1, name: 1}, {unique: true});
+Agent.index({associatedkey: 1});
 
 
 const agent = mongoose.model("agent", Agent);

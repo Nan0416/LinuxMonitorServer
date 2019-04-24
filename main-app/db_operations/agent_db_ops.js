@@ -43,7 +43,7 @@ function addAgent(agent_type, key, callback){
                                 if(err){
                                     callback(err);
                                 }else{
-                                    console.log(agent.toObject());
+                                    //console.log(agent.toObject());
                                     callback(null, agent.toObject());
                                 }
                             });

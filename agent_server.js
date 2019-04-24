@@ -63,8 +63,20 @@ connect.then((db)=>{
 
 
 // privilege verification
+/**
+ * {
+ *  key: "384u32...21a=="
+ *  privilege: "common"
+ * }
+ */
 app.use(urlprefix + '/privilege/verify', verifyPrivilegeRoute);
-app.use(urlprefix + '/agent/add', addAgentRoute);
+/**
+ * {
+ *  agenttype: "common"
+ *  key: "34390...21a=="
+ * }
+ */
+app.use(urlprefix + '/agentinstance/add', addAgentRoute);
 
 // add plugins
 for(let i = 0 ; i < enabled_plugins.length; i++){
@@ -76,8 +88,11 @@ for(let i = 0 ; i < enabled_plugins.length; i++){
     app.use(url, agent_router);
 }
 
-
-
+// add err
+app.use((err, req, res, next) => {
+    res.statusCode = 400;
+    res.json({success: false,reasons:[err.message], value: null});
+})
 //////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////

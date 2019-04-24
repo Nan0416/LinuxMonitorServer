@@ -9,29 +9,21 @@ const verification = require('../../main-app/middlewares/verification');
 const add_common_metrics = require('../common_db_operation').add_common_metrics;
 
 
-router.route('/:account')
+router.route('/')
 .post(verification.verify("common"), (req, res, next) => {
-    if(req.body && has_value(req.body["agent-id"]) && has_value(req.body["data"])){
+    if(has_value(req.body) && has_value(req.body["agent-id"]) && has_value(req.body["data"])){
         add_common_metrics(req.body["agent-id"], req.body["data"], (err, result)=>{
             if(err){
                 res.statusCode = 403;
-                res.json({
-                    success: false,
-                    reasons: [err.message],
-                    value: null
-                });
+                res.json({success: false, reasons: [err.message], value: null});
             }else{
                 res.statusCode = 200;
-                res.json({
-                    success: true,
-                    reasons: [],
-                    value:result
-                });
+                res.json({success: true,reasons: [],value:result});
             }
         });
     }else{
         res.statusCode = 400;
-        res.json({success: false, reason:[`${JSON.stringify(req.body)} is a invalid body`]});
+        res.json({success: false, reason:[`Invalid body`], value: null});
     }
 });
 

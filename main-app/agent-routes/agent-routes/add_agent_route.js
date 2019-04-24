@@ -3,18 +3,18 @@ const addAgentRouter = express.Router();
 const verifyPrivilege = require('../../db_operations/key_db_ops').verifyPrivilege;
 const addAgent = require('../../db_operations/agent_db_ops').addAgent;
 const has_value = require('../../helper_functions').has_value;
-addAgentRouter.route("/:agenttype")
+addAgentRouter.route("/")
 .post((req, res, next)=>{
-    if(has_value(req.params["agenttype"]) && has_value(req.body.key)){
-        verifyPrivilege(req.params['agenttype'], req.body.key, (err, result)=>{
+    if(has_value(req.body.agenttype) && has_value(req.body.key)){
+        verifyPrivilege(req.body.agenttype, req.body.key, (err, result)=>{
             if(err){
                 res.statusCode = 403;
                 res.json({success: false, reasons:[err.message], value: null});
             }else if(!result){
                 res.statusCode = 403;
-                res.json({success: false, reasons:[`${req.body.key} does not has the privilege.`], value: null});
+                res.json({success: false, reasons:[`Your key does not has the privilege.`], value: null});
             }else{
-                addAgent(req.params['agenttype'], req.body.key, (err, result)=>{
+                addAgent(req.body.agenttype, req.body.key, (err, result)=>{
                     if(err) {
                         res.statusCode = 403;
                         res.json({success: false, reasons:[err.message], value: null});

@@ -15,4 +15,9 @@ function verify(privilege){
         })
     };
 }
+function association(req, res, next){
+    // verify if this agent-id is associate with this key.
+    next();
+}
 module.exports.verify = verify;
+module.exports.association = association;

@@ -29,10 +29,9 @@ const delPrivilegeRoute = require('./main-app/web-routes/key-routes/delete_privi
 // const addKeyRoute = 
 
 // agent management
-/* const registerTargetRoute = require('./routes/target_routes/register_route');
-const queryTargetsRoute = require('./routes/target_routes/query_route');
-const reportTargetRoute = require('./routes/target_routes/report_route');
-const deleteTargetRoute = require('./routes/target_routes/delete_route');*/
+
+const queryAgentInstanceRoute = require('./main-app/web-routes/agent-routes/query_route');
+
 // cors
 const cors = require('./main-app/web-routes/cors');
 
@@ -120,6 +119,8 @@ app.use(urlprefix + '/privilege/add', addPrivilegeRoute);
 app.use(urlprefix + '/privilege/del', delPrivilegeRoute);
 app.use(urlprefix + '/key/query', queryKeyRoute);
 
+// meta agent route 
+app.use(urlprefix + '/agentinstance/query', queryAgentInstanceRoute);
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////

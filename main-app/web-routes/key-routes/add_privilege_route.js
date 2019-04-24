@@ -1,6 +1,4 @@
-/**
- * smallData_user /query/....
- */
+
 
 const cors = require('../cors');
 const express = require('express');

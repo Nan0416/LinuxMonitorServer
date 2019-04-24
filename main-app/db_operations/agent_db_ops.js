@@ -4,6 +4,15 @@ const crypto = require('crypto');
 const userDB = require('../db_models/user_db');
 const keyDB = require('../db_models/key_db');
 const selected_fields = "name type status";
+// backend agent applys for adding an agent.
+
+/**
+ * 
+ * @param {*} agent_type 
+ * @param {*} key 
+ * @param {*} callback 
+ * Ins
+ */
 function addAgent(agent_type, key, callback){
     keyDB.findOne({value:key}, (err, key)=>{
         if(err){
@@ -54,4 +63,21 @@ function addAgent(agent_type, key, callback){
         }
     });
 }
+// frontend for querying meta data of a agent.
+function queryAgent(userId, callback){
+    agentDB.find({ownerid: userId}, selected_fields, (err, agentinstances)=>{
+        if(err){
+            callback(err);
+        }else if(agentinstances == null){
+            callback(new Error("Cannot find agents"));
+        }else{
+            let result = [];
+            for(let i = 0; i < agentinstances.length; i++){
+                result.push(agentinstances[i].toObject());
+            }
+            callback(null, result);
+        }
+    });
+}
 module.exports.addAgent = addAgent;
+module.exports.queryAgent = queryAgent;

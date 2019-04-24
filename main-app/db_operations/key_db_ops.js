@@ -24,13 +24,87 @@ function generateKey(userId, callback){
     })
 }
 
-// add privilege
+/**
+ * 
+ * @param {*} privilege AgentType
+ * @param {*} keyvalue 
+ * @param {*} callback (err, key.toObject())
+ * 
+ * Currently, all applied privileges are approved here. But later, it may depend on the policy. e.g. subscription.
+ */
 function addPrivilege(privilege, keyvalue, callback){
-
+    keyDB.findOne({value: keyvalue}, (err, key)=>{
+        if(err != null) callback(err);
+        else if(key == null) callback(new Error("key does not exist."))
+        else{
+            existed = false;
+            for(let i = 0; i < key.privileges.length; i++){
+                if(key.privileges[i] == privilege){
+                    existed = true;
+                    break;
+                }
+            }
+            if(existed){
+                callback(null, key.toObject());
+            }else{
+                key.privileges.push(privilege);
+                key.save((err, key_)=>{
+                    if(err != null) callback(err);
+                    else callback(null, key_ == null? null: key_.toObject());
+                })
+            }
+        }
+    });
 }
 
-// verify privilege
+// verify privilege for agent
 function verifyPrivilege(privilege, keyvalue, callback){
-
+    keyDB.findOne({value: keyvalue}, (err, key)=>{
+        if(err != null) callback(err);
+        else if(key == null) callback(new Error("key does not exist."))
+        else{
+            existed = false;
+            for(let i = 0; i < key.privileges.length; i++){
+                if(key.privileges[i] == privilege){
+                    existed = true;
+                    break;
+                }
+            }
+            callback(null, existed);
+        }
+    });
+}
+// verify owner
+function verifyOwnership(keyvalue, userid, callback){
+    keyDB.findOne({value: keyvalue}, (err, key)=>{
+        if(err != null) callback(err);
+        else if(key == null) callback(new Error("key does not exist."))
+        else{
+            if(key.ownerid.toString() == userid.toString()){
+                callback(null, true);
+            }else{
+                callback(null, false);
+            }
+        }
+    });
+}
+// query keys
+function queryKeys(userid, callback){
+    keyDB.find({ownerid: userid}, null, null, (err, keys)=>{
+        if(err) callback(err);
+        else if(keys == null) callback(new Error("This key does not exist."));
+        else {
+            let result = [];
+            for(let i = 0; i < keys.length; i++){
+                result.push(keys[i].toObject());
+            }
+            callback(null, result)
+        }
+    });
 }
 module.exports.generateKey = generateKey;
+module.exports.addPrivilege = addPrivilege;
+module.exports.verifyPrivilege = verifyPrivilege;
+module.exports.verifyOwnership = verifyOwnership;
+
+module.exports.queryKeys = queryKeys;

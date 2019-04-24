@@ -16,18 +16,25 @@ const session_key = require('./web_server_config').session_key;
 const session_id = require('./web_server_config').session_id;
 
 // user account management
-const signupRoute = require('./main-app/routes/user_routes/signup_route');
-const loginRoute = require('./main-app/routes/user_routes/login_route');
-const logoutRoute = require('./main-app/routes/user_routes/logout_route');
-const activateRoute = require('./main-app/routes/user_routes/activate_route');
-//const keyManagementRoute = require('./main-app/routes/user_routes/key_route');
-// agent
+const signupRoute = require('./main-app/web-routes/user-routes/signup_route');
+const loginRoute = require('./main-app/web-routes/user-routes/login_route');
+const logoutRoute = require('./main-app/web-routes/user-routes/logout_route');
+//const queryUserRoute = 
+const activateRoute = require('./main-app/web-routes/user-routes/activate_route');
+
+// key and privilege management
+const queryKeyRoute = require('./main-app/web-routes/key-routes/query_key_route');
+const addPrivilegeRoute = require('./main-app/web-routes/key-routes/add_privilege_route');
+const delPrivilegeRoute = require('./main-app/web-routes/key-routes/delete_privilege_route');
+// const addKeyRoute = 
+
+// agent management
 /* const registerTargetRoute = require('./routes/target_routes/register_route');
 const queryTargetsRoute = require('./routes/target_routes/query_route');
 const reportTargetRoute = require('./routes/target_routes/report_route');
 const deleteTargetRoute = require('./routes/target_routes/delete_route');*/
 // cors
-const cors = require('./main-app/routes/cors');
+const cors = require('./main-app/web-routes/cors');
 
 ///////// Express middleware //////////
 const logger = require('morgan');
@@ -102,16 +109,16 @@ function session_authentication(req, res, next){
 //////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////Route setup         /////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
-
+// user and account
 app.use(urlprefix + '/user/signup', signupRoute);
 app.use(urlprefix + '/user/login', loginRoute);
 app.use(urlprefix + '/user/activate', activateRoute);
-// app.use(url_prefix + '/target/report', reportTargetRoute);
 app.use(cors.cors, session_authentication);
 app.use(urlprefix + '/user/logout', logoutRoute);
-/*app.use(url_prefix + '/target/register', registerTargetRoute);
-app.use(url_prefix + '/target/query', queryTargetsRoute);
-app.use(url_prefix + '/target/delete', deleteTargetRoute);*/
+// privilege and key
+app.use(urlprefix + '/privilege/add', addPrivilegeRoute);
+app.use(urlprefix + '/privilege/del', delPrivilegeRoute);
+app.use(urlprefix + '/key/query', queryKeyRoute);
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////

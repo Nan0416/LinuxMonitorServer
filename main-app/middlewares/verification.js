@@ -1,4 +1,4 @@
-function verify(plugin_name){
+function verify(privilege){
     return (req, res, next)=>{
         next();
     };

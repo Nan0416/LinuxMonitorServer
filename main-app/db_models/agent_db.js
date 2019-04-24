@@ -16,7 +16,7 @@ const Agent = new Schema({
         required: true
     },
     type: {
-        type:String,
+        type:String, // e.g. common, hadoop
         required: true
     },
     status:{

@@ -6,8 +6,9 @@ const crypto = require('crypto');
 const selected_fields = "username email profile status";
 // err, key
 function generateVerificationEmail(userId, email, callback){
-    
-    let value = crypto.createHmac('sha256', userId.toString() + (new Date()).toString()).digest('hex').toString('utf-8');
+    let r_ = Math.random() * 10000;
+    let str_ = userId.toString() + r_.toString();
+    let value = crypto.createHmac('sha1', str_).digest('hex').toString('utf-8');
     // [TODO] check key does not existed ...
     let data = {
         userid: userId,

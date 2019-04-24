@@ -1,3 +1,5 @@
-module.exports.common = "common"; // common
-module.exports.hadoop = "hadoop"; // hadoop
-module.exports.spark = "spark";
+const AgentType = {};
+AgentType.common = "common";
+AgentType.hadoop = "hadoop";
+
+module.exports.AgentType = AgentType;

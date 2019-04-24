@@ -12,7 +12,7 @@ const Key = new Schema({
         required: true,
     },
     privileges:{
-        type:[String],
+        type:[String], // e.g. common, hadoop
         default: []
     },
     status:{

@@ -6,6 +6,7 @@ const EmailMessageRecord = new Schema({
     userid: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
+        ref:'user',
     },
     email:{
         type: String,

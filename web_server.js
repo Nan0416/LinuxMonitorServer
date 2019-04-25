@@ -15,6 +15,10 @@ const urlprefix = require('./web_server_config').web_url_prefix;
 const session_key = require('./web_server_config').session_key;
 const session_id = require('./web_server_config').session_id;
 
+const enabled_plugins = [
+    "common-plugin"
+];
+
 // user account management
 const signupRoute = require('./main-app/web-routes/user-routes/signup_route');
 const loginRoute = require('./main-app/web-routes/user-routes/login_route');
@@ -30,7 +34,7 @@ const delPrivilegeRoute = require('./main-app/web-routes/key-routes/delete_privi
 
 // agent management
 
-const queryAgentInstanceRoute = require('./main-app/web-routes/agent-routes/query_route');
+const queryAgentMetaRoute = require('./main-app/web-routes/agent-routes/query_route');
 
 // cors
 const cors = require('./main-app/web-routes/cors');
@@ -120,7 +124,16 @@ app.use(urlprefix + '/privilege/del', delPrivilegeRoute);
 app.use(urlprefix + '/key/query', queryKeyRoute);
 
 // meta agent route 
-app.use(urlprefix + '/agentinstance/query', queryAgentInstanceRoute);
+app.use(urlprefix + '/agent/query', queryAgentMetaRoute);
+
+// agent instance route
+for(let i = 0 ; i < enabled_plugins.length; i++){
+    let plugin_config = require(`./${enabled_plugins[i]}/config`);
+    let plugin_url = plugin_config.endpoint;
+    let url = `${urlprefix}/plugin/query/${plugin_url}`
+    let web_router = require(`./${enabled_plugins[i]}/routes/web-routes`);
+    app.use(url, web_router);
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////

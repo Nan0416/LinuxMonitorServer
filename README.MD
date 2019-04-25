@@ -39,7 +39,7 @@ POST /agent-api/agentinstance/add
     key:"YweojoU .... weIAd=="
 }
 6. (agent) post data
-POST /agent-api/plugin/{agent-type}
+POST /agent-api/plugin/append/{agent-type}
 {
 	"agent-id":"5cc0d8a5335d190ae9478c7f",
 	"key":"YjU3YTA5 ... ZGFmOA==",
@@ -66,3 +66,11 @@ POST /agent-api/plugin/{agent-type}
 }
 
 7. query agent instance meta data
+GET /web-api/agent/query
+
+8. query agent instance data
+POST /web-api/plugin/query/{agent-type}
+{
+	"agent-id":"5cc0d8a5335d190ae9478c7f",
+	"timestampe?":
+}

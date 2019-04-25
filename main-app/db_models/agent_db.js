@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 const Agent = new Schema({
     ownerid: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true
+        required: true,
+        ref:'user'
     },
     name: {
         type: String,
@@ -13,7 +14,8 @@ const Agent = new Schema({
     },
     associatedkey:{
         type: mongoose.Schema.Types.ObjectId,
-        required: true
+        required: true,
+        ref: 'key'
     },
     type: {
         type:String, // e.g. common, hadoop

@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 const Key = new Schema({
     ownerid: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true
+        required: true,
+        ref:'user'
     },
     value: {
         type: String,

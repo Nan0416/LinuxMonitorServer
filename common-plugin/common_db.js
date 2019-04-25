@@ -51,7 +51,8 @@ const CommonMetrics = new Schema({
         required: true,
     },
 },{ 
-    _id : false 
+    _id : false,
+    timestamps: true,
 });
 
 
@@ -60,6 +61,7 @@ const CommonStorage = new Schema({
     agent_id:{
         type: mongoose.Schema.Types.ObjectId,
         required: true,
+        ref:'agent'
     },
     data:{
         type: CommonMetrics,
@@ -72,5 +74,5 @@ const CommonStorage = new Schema({
     usePushEach:true
 });
 CommonStorage.index({agent_id: 1, createdAt: 1}, {unique: true});
-const common = mongoose.model("common", CommonStorage); 
+const common = mongoose.model("common", CommonStorage);  // updata name to common-plugin
 module.exports = common;

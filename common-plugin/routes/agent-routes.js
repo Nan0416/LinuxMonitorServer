@@ -1,5 +1,5 @@
 /**
- * smallData /restapi/common
+ * 
  */
 const express = require('express');
 const router = express.Router();

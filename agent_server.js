@@ -83,7 +83,7 @@ for(let i = 0 ; i < enabled_plugins.length; i++){
     let plugin_config = require(`./${enabled_plugins[i]}/config`);
     let agent_router = require(`./${enabled_plugins[i]}/routes/agent-routes`);
     let plugin_url = plugin_config.endpoint;
-    let url = `${urlprefix}/plugin/${plugin_url}`
+    let url = `${urlprefix}/plugin/append/${plugin_url}`
     console.log(url)
     app.use(url, agent_router);
 }

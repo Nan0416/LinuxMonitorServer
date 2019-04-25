@@ -74,5 +74,5 @@ const CommonStorage = new Schema({
     usePushEach:true
 });
 CommonStorage.index({agent_id: 1, createdAt: 1}, {unique: true});
-const common = mongoose.model("common", CommonStorage);  // updata name to common-plugin
+const common = mongoose.model("common-plugin", CommonStorage);  // updata name to common-plugin
 module.exports = common;

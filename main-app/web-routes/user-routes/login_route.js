@@ -29,7 +29,7 @@ loginRouter.route("/")
                 req.body.username = user.username;
                 passport.authenticate('local')(req, res, ()=>{
                     res.statusCode = 200;
-                    res.json({succcess: true, reasons:[], value: user});
+                    res.json({success: true, reasons:[], value: user});
                 });
             }
         })

@@ -22,6 +22,14 @@ POST /web-api/user/signup
 2. activate account
 GET /web-api/user/activate/{activation-code}
 
+or 
+1.2 user login
+POST /web-api/user/login
+{
+    "username":"qinnan" or "email"
+    "password":"Your Password"
+}
+
 3. query keys
 GET /web-api/key/query
 

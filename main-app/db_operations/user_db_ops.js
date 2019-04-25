@@ -187,25 +187,13 @@ function modifyTargetStatus(req, res, callback){
 ///////////// query user /////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 function queryUser(username, callback){
-    userDB.findOne({username: username}, selected_field, (err, user)=>{
+    userDB.findOne({username: username}, selected_fields, (err, user)=>{
         if(err){
-            callback({
-                success: false,
-                reasons: [err.message],
-                value: null
-            });
+            callback(err);
         }else if(user){
-            callback({
-                success: true,
-                value: user,
-                reasons:[]
-            });
+            callback(null, user.toObject());
         }else{
-            callback({
-                success: true,
-                value: null,
-                reasons:[`Not found`]
-            });
+            callback(new Error("User does not exist."));
         }
     });
 }

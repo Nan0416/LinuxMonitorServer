@@ -23,7 +23,7 @@ const enabled_plugins = [
 const signupRoute = require('./main-app/web-routes/user-routes/signup_route');
 const loginRoute = require('./main-app/web-routes/user-routes/login_route');
 const logoutRoute = require('./main-app/web-routes/user-routes/logout_route');
-//const queryUserRoute = 
+const queryUserRoute = require('./main-app/web-routes/user-routes/query_route');
 const activateRoute = require('./main-app/web-routes/user-routes/activate_route');
 
 // key and privilege management
@@ -118,6 +118,7 @@ app.use(urlprefix + '/user/login', loginRoute);
 app.use(urlprefix + '/user/activate', activateRoute);
 app.use(cors.cors, session_authentication);
 app.use(urlprefix + '/user/logout', logoutRoute);
+app.use(urlprefix + '/user/query', queryUserRoute);
 // privilege and key
 app.use(urlprefix + '/privilege/add', addPrivilegeRoute);
 app.use(urlprefix + '/privilege/del', delPrivilegeRoute);

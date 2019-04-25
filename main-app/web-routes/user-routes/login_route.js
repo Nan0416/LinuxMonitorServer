@@ -26,10 +26,10 @@ loginRouter.route("/")
                 res.statusCode = 400;
                 res.json({ success: false, reasons:["Invalid username or password"], value:null});
             }else{
-                res.statusCode = 200;
                 req.body.username = user.username;
                 passport.authenticate('local')(req, res, ()=>{
-                    res.json(user);
+                    res.statusCode = 200;
+                    res.json({succcess: true, reasons:[], value: user});
                 });
             }
         })

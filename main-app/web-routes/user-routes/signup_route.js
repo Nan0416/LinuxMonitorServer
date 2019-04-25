@@ -28,9 +28,9 @@ signupRouter.route("/")
                 res.statusCode = 403;
                 res.json({success: false, reasons:[err.message], value: null});
             }else{
-                res.statusCode = 200;
                 passport.authenticate('local')(req, res, ()=>{
-                    res.json(result);
+                    res.statusCode = 200;
+                    res.json({success: true, reasons:[], value: result});
                 });
             }
         });

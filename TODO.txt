@@ -2,3 +2,5 @@
 2. after a email is verified, delete that record. email_vierification_db.js: activateEmail
 3. remove a privilege.
 4. complete association rule defined in middleware.
+
+5. before agent exist, send terminate to server.

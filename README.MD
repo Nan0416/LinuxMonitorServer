@@ -1,7 +1,7 @@
 agent = plugin ( = privilege)
 
 === Configuration ===
-Add secret.js with mailgun's key
+0. Add secret.js with mailgun's key
 
 
 

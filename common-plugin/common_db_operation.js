@@ -7,15 +7,13 @@ function add_common_metrics(agent_id, data, callback){
     };
     commonDB.create(temp, callback);
 }
+// timestamp in second (unix timestamp)
 function query_common_metrics(agent_id, timestamp, callback){
-    let query = null;
-    if(timestamp == null){
-        // query all
-        query = commonDB.find({agent_id: agent_id});
-    }else{
-        // query after timestamp
+    let condition = {agent_id: agent_id};
+    if(timestamp != null){
+        condition['createdAt'] = {$gte: new Date(timestamp * 1000)};
     }
-    query.exec((err, records)=>{
+    commonDB.find(condition, (err, records)=>{
         if(err) callback(err);
         else if(records == null) callback(new Error("Cannot find data"));
         else{

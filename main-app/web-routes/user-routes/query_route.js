@@ -5,7 +5,7 @@
  * smallData_user /query/....
  */
 
-
+const cors = require('../cors');
 const express = require('express');
 const queryUserRouter = express.Router();
 const has_value = require('../../helper_functions').has_value;
@@ -15,7 +15,10 @@ const queryUser = require('../../db_operations/user_db_ops').queryUser;
 
 
 queryUserRouter.route("/")
-.get((req, res, next)=>{
+.options(cors.cors, (req, res, next) => {
+    res.sendStatus(200);
+})
+.get(cors.cors,(req, res, next)=>{
     if(has_value(req.user) && has_value(req.user.username)){
         queryUser(req.user.username, (err, user)=>{
             if(err){

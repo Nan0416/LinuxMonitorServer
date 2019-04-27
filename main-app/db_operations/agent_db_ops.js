@@ -91,5 +91,5 @@ function queryAgentById(userId, agentId, callback){
     });
 }
 module.exports.addAgent = addAgent;
-module.exports.queryAgent = queryAgentAll;
-module.exports.queryAgent = queryAgentById;
+module.exports.queryAgentAll = queryAgentAll;
+module.exports.queryAgentById = queryAgentById;

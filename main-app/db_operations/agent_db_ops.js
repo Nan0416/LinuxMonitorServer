@@ -64,7 +64,7 @@ function addAgent(agent_type, key, callback){
     });
 }
 // frontend for querying meta data of all agent.
-function queryAgent(userId, callback){
+function queryAgentAll(userId, callback){
     agentDB.find({ownerid: userId}, selected_fields, (err, agentinstances)=>{
         if(err){
             callback(err);
@@ -79,7 +79,7 @@ function queryAgent(userId, callback){
         }
     });
 }
-function queryAgent(userId, agentId, callback){
+function queryAgentById(userId, agentId, callback){
     agentDB.find({ownerid: userId, _id: agentId}, selected_fields, (err, agentmeta)=>{
         if(err){
             callback(err);
@@ -91,4 +91,5 @@ function queryAgent(userId, agentId, callback){
     });
 }
 module.exports.addAgent = addAgent;
-module.exports.queryAgent = queryAgent;
+module.exports.queryAgent = queryAgentAll;
+module.exports.queryAgent = queryAgentById;

@@ -80,7 +80,7 @@ function queryAgentAll(userId, callback){
     });
 }
 function queryAgentById(userId, agentId, callback){
-    agentDB.find({ownerid: userId, _id: agentId}, selected_fields, (err, agentmeta)=>{
+    agentDB.findOne({ownerid: userId, _id: agentId}, selected_fields, (err, agentmeta)=>{
         if(err){
             callback(err);
         }else if(agentmeta == null){

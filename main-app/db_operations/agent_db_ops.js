@@ -63,7 +63,7 @@ function addAgent(agent_type, key, callback){
         }
     });
 }
-// frontend for querying meta data of a agent.
+// frontend for querying meta data of all agent.
 function queryAgent(userId, callback){
     agentDB.find({ownerid: userId}, selected_fields, (err, agentinstances)=>{
         if(err){
@@ -76,6 +76,17 @@ function queryAgent(userId, callback){
                 result.push(agentinstances[i].toObject());
             }
             callback(null, result);
+        }
+    });
+}
+function queryAgent(userId, agentId, callback){
+    agentDB.find({ownerid: userId, _id: agentId}, selected_fields, (err, agentmeta)=>{
+        if(err){
+            callback(err);
+        }else if(agentmeta == null){
+            callback(new Error("Cannot find agents"));
+        }else{
+            callback(null, agentmeta.toObject());
         }
     });
 }

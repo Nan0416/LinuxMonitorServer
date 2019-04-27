@@ -11,7 +11,7 @@ function add_common_metrics(agent_id, data, callback){
 function query_common_metrics(agent_id, timestamp, callback){
     let condition = {agent_id: agent_id};
     if(timestamp != null){
-        condition['createdAt'] = {$gte: new Date(timestamp)};
+        condition['createdAt'] = {$gt: new Date(timestamp)};
     }
     commonDB.find(condition, (err, records)=>{
         if(err) callback(err);

@@ -8,10 +8,22 @@ function add_common_metrics(agent_id, data, callback){
     commonDB.create(temp, callback);
 }
 // timestamp in second (unix timestamp)
-function query_common_metrics(agent_id, timestamp, callback){
+function query_common_metrics(agent_id, from, to, callback){
     let condition = {agent_id: agent_id};
-    if(timestamp != null){
-        condition['createdAt'] = {$gt: new Date(timestamp)};
+    
+    if(from != null && to != null){
+        condition['createdAt'] = {
+            $gte: new Date(timestamp),
+            $lt: new Date(timestamp),
+        };
+    }else if(from != null){
+        condition['createdAt'] = {
+            $gte: new Date(timestamp),
+        };
+    }else if(to != null){
+        condition['createdAt'] = {
+            $lt: new Date(timestamp),
+        };
     }
     commonDB.find(condition, (err, records)=>{
         if(err) callback(err);

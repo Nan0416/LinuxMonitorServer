@@ -15,7 +15,7 @@ router.route('/')
 })
 .post(cors.cors, verification.verifyOwnership, (req, res, next) => {
     if(has_value(req.body) && has_value(req.body["agent-id"])){
-        query_common_metrics(req.body["agent-id"], req.body['timestamp'], (err, result_arr)=>{
+        query_common_metrics(req.body["agent-id"], req.body['from'], req.body['to'], (err, result_arr)=>{
             if(err){
                 res.statusCode = 403;
                 res.json({success: false, reasons:[err.message], value: null});

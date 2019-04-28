@@ -13,16 +13,16 @@ function query_common_metrics(agent_id, from, to, callback){
     
     if(from != null && to != null){
         condition['createdAt'] = {
-            $gte: new Date(timestamp),
-            $lt: new Date(timestamp),
+            $gte: new Date(from),
+            $lt: new Date(to),
         };
     }else if(from != null){
         condition['createdAt'] = {
-            $gte: new Date(timestamp),
+            $gte: new Date(from),
         };
     }else if(to != null){
         condition['createdAt'] = {
-            $lt: new Date(timestamp),
+            $lt: new Date(to),
         };
     }
     commonDB.find(condition, (err, records)=>{

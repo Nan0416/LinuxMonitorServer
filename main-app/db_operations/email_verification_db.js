@@ -40,12 +40,12 @@ function activateEmail(value, callback){
                         //[ToDo] delete that record.
 
                         if(err) callback(err);
-                        else callback(null, user.toObject());
+                        else callback(null, "Account Activated!");
                     });
                 }else if(user == null){
                     callback(new Error("Account does not exist."));
                 }else{
-                    callback(new Error("Account already verified."));
+                    callback(null, "Account Already Activated!");
                 }
             });
         }else{

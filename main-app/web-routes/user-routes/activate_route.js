@@ -17,13 +17,13 @@ activateRouter.route("/:value")
     res.sendStatus(200);
 })
 .get(cors.cors,(req, res, next)=>{
-    activateEmail(req.params.value, (err, user)=>{
+    activateEmail(req.params.value, (err, msg)=>{
         if(err){
             res.statusCode = 403;
             res.json({success: false, reasons:[err.message], value: null});
         }else{
             res.statusCode = 200;
-            res.json({success: true, reasons:[], value: user});
+            res.json({success: true, reasons:[], value: msg});
         }
     });
 });

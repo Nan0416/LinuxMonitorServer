@@ -1,6 +1,7 @@
 const cors = require('cors');
 
 const whitelist = [
+    "http://localhost:4200",
     "http://192.168.0.103:4200",
     "http://monitor.sousys.com",
     "https://monitor.sousys.com"

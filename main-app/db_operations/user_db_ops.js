@@ -61,13 +61,13 @@ function validateEmail(email) {
 
 function send_verification_email(username, email, value, callback){
     const data = {
-        from: 'LinuxMonitor <support@monitor.sousys.com>',
+        from: 'LinuxMonitor <support@monitor.qinnan.dev>',
         to: email,
         subject: 'LinuxMonitor Support',
         text: 
 `Hi ${username}. Please confirm your email address by clicking on the link below. \n
 If you did not sign up for a LinuxMonitor account please disregard this email.\n
-https://monitor.sousys.com/activate/${value}`
+https://monitor.qinnan.dev/activate/${value}`
     };
       
     mailgun.messages().send(data, callback);
